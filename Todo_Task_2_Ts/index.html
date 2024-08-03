@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+    <link rel="stylesheet" href="/Todo_Task_2_Ts/style.css">
+</head>
+
+<body>
+    <h1>Todo</h1>
+    <form>
+        <input type="text" name="todo" id="todo">
+        <select name="type" id="select">
+            <option value="work">Work</option>
+            <option value="home">Home</option>
+            <option value="other">Other</option>
+        </select>
+        <button type="submit" id="submitId" onclick="addTodo">Add</button>
+    </form>
+
+    <!-- style for the form sections only -->
+
+
+
+    <div class="wrapper">
+        <ul id="root">
+            <li class="">
+                <input type="checkbox" name="todo" id="todo">
+                <span class="value">Todo 1</span>
+                <span class="type">Type</span>
+                <button class="del">Delete</button>
+                <button class="edit">Edit</button>
+            </li>
+        </ul>
+    </div>
+
+    
+    <script src="/Todo_Task_2_Ts/app.js"></script>
+</body>
+
+</html>
