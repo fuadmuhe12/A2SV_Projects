@@ -1,0 +1,68 @@
+.Wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.Wrapper input {
+  padding: 10px;
+  width: 300px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+}
+
+.Wrapper button {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.List {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.List ul {
+  list-style: none;
+  padding: 0;
+}
+
+.List ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  width: 300px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.List ul li button {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+/* make responsive */
+@media (max-width: 768px) {
+  .Wrapper {
+    flex-direction: column;
+  }
+
+  .Wrapper input {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .List ul li {
+    width: 100%;
+  }
+}
