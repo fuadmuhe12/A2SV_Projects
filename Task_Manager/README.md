@@ -25,4 +25,3 @@ This is a simple to do app made with React. It has the following features:
 3. Run `npm start` to start the development server
 4. Open `http://localhost:3000` to view the app in the browser
 
-## Demo:
