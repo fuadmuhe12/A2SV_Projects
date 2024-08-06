@@ -50,6 +50,13 @@
   background-color: #f1f1f1;
   cursor: pointer;
 }
+input[type="checkbox" i] {
+  margin-right: 10px;
+}
+
+input[type="checkbox" i]:checked + span {
+  text-decoration: line-through;
+}
 /* make responsive */
 @media (max-width: 768px) {
   .Wrapper {
