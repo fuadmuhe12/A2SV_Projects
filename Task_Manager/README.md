@@ -5,9 +5,6 @@ This is a simple to do app made with React. It has the following features:
 - Add todo
 - Delete todo
 - Edit todo
-- Mark as done
-- Mark as undone
-- Filter todos
 
 ## Technologies:
 - React with tsx
