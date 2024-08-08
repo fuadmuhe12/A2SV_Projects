@@ -43,7 +43,7 @@ export default function App() {
           {...register("email", {
             required: "This Field is required",
             pattern: {
-              value: /\S+@\S+\.\S+/,
+              value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
               message: "Entered value does not match email format",
             },
           })}
