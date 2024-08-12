@@ -5,7 +5,7 @@ import Image from "next/image";
 const JobDetail = (props: Job) => {
   return (
     <main className="flex flex-col md:flex-row gap-x-16 px-8 py-7 ">
-      <div className="left-side w-3/4 flex flex-col gap-y-14">
+      <div className="left-side w-full md:w-3/4 flex flex-col gap-y-14">
         <div className="discription">
           <h2 className="text-2xl font-[900] text-[#25324B]  pb-4">
             Description
@@ -73,7 +73,7 @@ const JobDetail = (props: Job) => {
           </div>
         </div>
       </div>
-      <div className="w-1/4">
+      <div className="md:w-1/4 w-full">
         <div className="divide-y-2 flex flex-col gap-y-5">
           <div className="about p">
             <h2 className="text-2xl font-[900] text-[#25324B]  pb-4">About</h2>

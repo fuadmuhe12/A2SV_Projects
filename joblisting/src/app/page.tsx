@@ -16,12 +16,12 @@ export default async function Home() {
   const { job_postings } = await GetJobs();
   return (
     <main className="px-5 pb-7">
-      <div className="flex justify-between p-4">
+      <div className="flex md:flex-row flex-col justify-between p-4">
         <div>
-          <h1 className="font-[900] text-4xl text-[#25324B] pb-1">
+          <h1 className="font-[900] text-xl md:text-4xl text-[#25324B] pb-1">
             Opportunities
           </h1>
-          <h2 className="text-[#7C8493]">Showing 73 results</h2>
+          <h2 className="text-[#7C8493]">Showing {job_postings.length} results</h2>
         </div>
         <div>
           <form>
