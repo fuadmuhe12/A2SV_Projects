@@ -5,7 +5,7 @@ export const GetJobs = async (): Promise<{ job_postings: Job[] }> => {
   let result = await fetch(`${baseUrl}/db/jobs.json`, { cache: "no-store" });
   if (!result.ok) {
     result = await fetch(
-      "${https://joblisting-proj.netlify.app}" + "/db/jobs.json"
+      "https://joblisting-proj.netlify.app" + "/db/jobs.json"
     );
   }
 
