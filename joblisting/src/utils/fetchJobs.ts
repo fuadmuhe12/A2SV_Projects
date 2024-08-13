@@ -1,19 +1,22 @@
+import { promises as fs } from "fs";
+import path from "path";
 import { Job } from "@/interfaces/Job";
 
 export const GetJobs = async (): Promise<
   { job_postings: Job[] } | undefined
 > => {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    let result = await fetch(`${baseUrl}/db/jobs.json`, { cache: "no-store" });
-    if (!result.ok) {
-      result = await fetch(
-        "https://joblisting-proj.netlify.app" + "/db/jobs.json"
-      );
-    }
-    const jobs = await result.json();
+    // Construct the absolute path to the JSON file
+    const filePath = path.join(process.cwd(), "src/api/db/jobs.json");
+
+    // Read the file content
+    const fileContent = await fs.readFile(filePath, "utf8");
+
+    // Parse and return the JSON object
+    const jobs = JSON.parse(fileContent) as { job_postings: Job[] };
     return jobs;
   } catch (error) {
-    console.log(error);
+    console.error("Failed to load jobs:", error);
+    return undefined;
   }
 };
