@@ -1,7 +1,7 @@
 import JobCard from "@/components/JobCard";
 import { GetJobs } from "@/utils/fetchJobs";
-import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 type JobProps = {
   imgUrl: string;
   title: string;
@@ -12,8 +12,11 @@ type JobProps = {
 };
 
 export default async function Home() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const { job_postings } = await GetJobs();
+  const result = await GetJobs();
+  if (!result) {
+    return notFound();
+  }
+  const { job_postings } = result;
   return (
     <main className="px-5 pb-7">
       <div className="flex md:flex-row flex-col justify-between p-4">
@@ -21,7 +24,9 @@ export default async function Home() {
           <h1 className="font-[900] text-xl md:text-4xl text-[#25324B] pb-1">
             Opportunities
           </h1>
-          <h2 className="text-[#7C8493]">Showing {job_postings.length} results</h2>
+          <h2 className="text-[#7C8493]">
+            Showing {job_postings.length} results
+          </h2>
         </div>
         <div>
           <form>
