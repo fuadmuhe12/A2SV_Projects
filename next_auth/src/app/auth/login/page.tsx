@@ -3,12 +3,13 @@ import Button from "@/components/Button";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 type Props = {};
 
 export default function Login({}: Props) {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { register } = useForm();
   const { data, status } = useSession();
   if (status === "loading") {
@@ -30,41 +31,42 @@ export default function Login({}: Props) {
       </div>
       <form
         action={async (formdata) => {
+          setErrorMessage(null);
           const data = {
             email: formdata.get("email"),
             password: formdata.get("password"),
           };
-
-          const res = await signIn("akil-login", { ...data });
-          console.log(res, "res from login");
+          const res = await signIn("akil-login", { ...data, redirect: false });
+          if (res?.error) {
+            setErrorMessage(res.error);
+          }
         }}
         className="flex flex-col gap-y-[22px]"
       >
         <div className="flex flex-col">
-          <label
-            className="font-semibold  text-[#515B6F] pb-2"
-            htmlFor="confirmPass"
-          >
+          <label className="font-semibold  text-[#515B6F] pb-2" htmlFor="email">
             Email Address
           </label>
           <input
-            {...register("confirmPass")}
+            {...register("email", { required: true })}
             name="email"
             className=" caret-gray-300 caret py-4 px-3  rounded-lg w-[408px]  outline-none border border-gray-300  focus:border "
             type="email"
+            required={true}
             placeholder="Enter password"
           />
         </div>
         <div className="flex flex-col">
           <label
             className="font-semibold  text-[#515B6F] pb-2"
-            htmlFor="confirmPass"
+            htmlFor="password"
           >
             Password
           </label>
           <input
-            {...register("confirmPass")}
+            {...register("password", { required: true })}
             name="password"
+            required={true}
             className=" caret-gray-300 caret py-4 px-3  rounded-lg w-[408px]  outline-none border border-gray-300  focus:border "
             type="password"
             placeholder="Enter password"
@@ -74,6 +76,11 @@ export default function Login({}: Props) {
           <Button buttonName="Continue" />
         </div>
       </form>
+      {errorMessage && (
+        <div className="bg-red-200 w-full h-9 text-center rounded-sm flex justify-center items-center">
+          <p className="text-red-500">{errorMessage}</p>
+        </div>
+      )}
       <div>
         <p className="font-normal text-[#202430a2]">
           Don’t have an account?{" "}

@@ -14,13 +14,12 @@ import { redirect } from "next/navigation";
 type Props = {};
 
 function SingUp({}: Props) {
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const { register, handleSubmit } = useForm<sinupInputIds>();
   const { data, status } = useSession();
-  console.log(data, status, "data, status from signup page");
-  console.log(data);
 
   const onSubmit: SubmitHandler<sinupInputIds> = async (data) => {
-    console.log("submitted", data);
+    setErrorMessage(null);
     const res = await signIn("akil-signup", {
       redirect: false,
       name: data.fullname,
@@ -29,6 +28,9 @@ function SingUp({}: Props) {
       confirmPassword: data.confirmPass,
       role: "user",
     });
+    if (res?.error) {
+      setErrorMessage(res.error);
+    }
   };
   if (status === "loading") {
     return (
@@ -47,7 +49,12 @@ function SingUp({}: Props) {
         <h1 className="font-[900] text-[32px] leading-9 text-center pb-6">
           Sign Up Today!
         </h1>
-        <div className="flex px-4   max-w-md border w-[408px] justify-center gap-x-[10px] rounded-md py-3">
+        <div
+          className="flex px-4   max-w-md border w-[408px] justify-center gap-x-[10px] rounded-md py-3 cursor-pointer"
+          onClick={async () => {
+            await signIn("google");
+          }}
+        >
           <Image
             src="/icons/google.svg"
             alt="google icon"
@@ -121,10 +128,18 @@ function SingUp({}: Props) {
         </div>
         <Button buttonName="Continue" />
       </form>
+      {errorMessage && (
+        <div className="bg-red-200 w-full h-9 text-center rounded-sm flex justify-center items-center">
+          <p className="text-red-500">{errorMessage}</p>
+        </div>
+      )}
       <div className="flex flex-col gap-y-6 mt-6">
         <p className="text-[#202430c6]">
           Already have an account?{" "}
-          <Link className=" text-[#4540ded8] font-semibold" href={"/auth/login"}>
+          <Link
+            className=" text-[#4540ded8] font-semibold"
+            href={"/auth/login"}
+          >
             Login
           </Link>
         </p>

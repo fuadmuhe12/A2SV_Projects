@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 
 export default function Home() {
   const { data, status } = useSession();
-  console.log(data, status, "data, status from home page");
   if (status === "loading") return <div>Loading...</div>;
   if (status === "unauthenticated") {
     redirect("/auth");

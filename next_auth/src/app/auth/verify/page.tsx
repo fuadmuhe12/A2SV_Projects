@@ -6,6 +6,7 @@ import React, { useRef, useState } from "react";
 
 const VerificationCodeInput = () => {
   const { data, status, update } = useSession();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [code, setCode] = useState<string[]>(["", "", "", ""]);
 
@@ -48,7 +49,6 @@ const VerificationCodeInput = () => {
   }
   if (data?.user?.role != "unverified") {
     redirect("/");
-    ;
   }
 
   return (
@@ -66,6 +66,7 @@ const VerificationCodeInput = () => {
         </div>
         <form
           action={async (fomrdata) => {
+            setErrorMessage(null);
             let submited = [];
             for (let i = 0; i < 4; i++) {
               submited.push(fomrdata.get(`code_${i}`));
@@ -74,9 +75,11 @@ const VerificationCodeInput = () => {
               email: data?.user?.email,
               otp: submited.join(""),
             });
-            
 
-            console.log(res);
+            if (res?.error) {
+              setErrorMessage(res.error);
+            }
+
           }}
         >
           <div className="flex flex-col gap-y-5">
@@ -98,6 +101,11 @@ const VerificationCodeInput = () => {
                 />
               ))}
             </div>
+            {errorMessage && (
+              <div className="bg-red-200 w-full h-9 text-center rounded-sm flex justify-center items-center">
+                <p className="text-red-500">{errorMessage}</p>
+              </div>
+            )}
             <p className="text-center">
               You can request to{" "}
               <span className="font-semibold text-[#4540dec4]">

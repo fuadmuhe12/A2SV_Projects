@@ -4,6 +4,14 @@ import { JWT } from "next-auth/jwt";
 import { Session } from "next-auth";
 import { User } from "next-auth";
 import { signIn } from "next-auth/react";
+import { log } from "console";
+
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+const Google = GoogleProvider({
+  clientId: GOOGLE_CLIENT_ID as string,
+  clientSecret: GOOGLE_CLIENT_SECRET as string,
+});
 
 /* 
 const Google = GoogleProvider({
@@ -65,7 +73,6 @@ const AkilLogin = CredentialsProvider({
 
     if (result.status === 200) {
       const data = await result.json();
-      console.log(data, "from login options");
 
       const { email, id, name, role, accessToken, profileStatus } = data.data;
       return {
@@ -88,6 +95,7 @@ const AkilLogin = CredentialsProvider({
           return { email: email, name: null, role: "unverified", id: 1 };
         }
       }
+      throw new Error(data.message);
       return null;
     }
   },
@@ -100,7 +108,6 @@ const AkilVerify = CredentialsProvider({
     otp: { label: "OTP", type: "text" },
   },
   async authorize(credentials) {
-    console.log(credentials, "from verify options");
     if (!credentials) {
       throw new Error("Credentials are undefined");
     }
@@ -148,7 +155,6 @@ const AkilSignup = CredentialsProvider({
     if (!credentials) {
       throw new Error("Credentials are undefined");
     }
-    console.log(credentials);
 
     const { name, email, password, confirmPassword, role } = credentials;
     const userData = { email, password, name, confirmPassword, role };
@@ -160,10 +166,8 @@ const AkilSignup = CredentialsProvider({
       body: JSON.stringify(userData),
     });
 
-    console.log(result);
     if (result.status === 200) {
       const data = await result.json();
-      console.log(data);
       if (data.message === "Successfully sent OTP") {
         return { email: email, id: 1, name: null, role: "unverified" };
       } else {
@@ -171,13 +175,14 @@ const AkilSignup = CredentialsProvider({
         return { email: email, id: id, name: name, role: role };
       }
     } else {
-      return null;
+      const data = await result.json();
+      throw new Error(data.message);
     }
   },
 });
 
 export const options = {
-  providers: [AkilLogin, AkilSignup, AkilVerify],
+  providers: [Google, AkilLogin, AkilSignup, AkilVerify],
   callbacks: {
     async jwt({ token, user }: { token: JWT; user: User }) {
       return { ...token, ...user };
@@ -198,5 +203,6 @@ export const options = {
   },
   pages: {
     error: "/auth",
+    signIn: "/auth/login",
   },
 };
