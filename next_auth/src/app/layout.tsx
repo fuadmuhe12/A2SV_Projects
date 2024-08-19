@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <AuthProvider>
-        <body className={inter.className}>{children}</body>
+        <body className= "max-w-screen-xl m-auto">{children}</body>
       </AuthProvider>
     </html>
   );
